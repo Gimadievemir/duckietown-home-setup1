@@ -1,0 +1,46 @@
+Выдержки из Serial Monitor Wokwi (Arduino UNO, 9600 бод), 29.10.2026.
+Строки скопированы из окна Serial Monitor без изменений. Время — время симуляции Wokwi.
+
+=== v1_baseline, базовая схема (тесты 1–6) ===
+[кнопка отпущена]   D2=HIGH released -> LEDs OFF
+[10 см]             D2=LOW duration=583us distance=10.00cm LED=RED
+[20 см]             D2=LOW duration=1171us distance=20.08cm LED=YELLOW
+[35 см]             D2=LOW duration=2047us distance=35.11cm LED=YELLOW
+[50 см]             D2=LOW duration=2923us distance=50.13cm LED=GREEN      <-- FAIL, ожидался YELLOW
+[70 см]             D2=LOW duration=4093us distance=70.19cm LED=GREEN
+                    D2=LOW duration=4094us distance=70.21cm LED=GREEN
+
+=== v1_baseline, тест 7 / эксперимент D: провод ECHO удалён из diagram.json ===
+D2=LOW ERROR: no echo -> LEDs OFF        (10 строк за 10.0 с симуляции: 00:19.330 -> 00:29.340)
+
+=== Эксперимент A: в коде ECHO_PIN = 8, провод на D10 ===
+[10 см] D2=LOW ERROR: no echo -> LEDs OFF  (6 строк за 6.0 с: 00:42.021 -> 00:48.025)
+[5 см]  D2=LOW ERROR: no echo -> LEDs OFF
+
+=== Эксперимент B: pinMode(BUTTON_PIN, INPUT), внешней подтяжки нет, кнопка НЕ нажата ===
+D2=LOW duration=4063us distance=69.68cm LED=GREEN
+D2=LOW duration=4094us distance=70.21cm LED=GREEN
+(за ~2.5 с симуляции: 9 строк D2=LOW, 0 строк D2=HIGH)
+
+=== Эксперимент E: условия переставлены (сначала <= 50, потом < 20) ===
+[10 см] D2=LOW duration=589us distance=10.10cm LED=YELLOW
+[19 см] D2=LOW duration=1112us distance=19.07cm LED=YELLOW
+[50 см] D2=LOW duration=2923us distance=50.13cm LED=GREEN
+[70 см] D2=LOW duration=4094us distance=70.21cm LED=GREEN
+
+=== v2_final, повторные тесты ===
+[отпущена] D2=HIGH edges=0 presses=0 idle LED=OFF
+[10 см]    D2=LOW edges=53 presses=1 valid=1 median=10.10cm LED=RED
+[19 см]    D2=LOW edges=53 presses=1 valid=1 median=19.07cm LED=RED
+[20 см]    D2=LOW edges=53 presses=1 valid=1 median=20.08cm LED=YELLOW
+[35 см]    D2=LOW edges=53 presses=1 valid=1 median=35.11cm LED=YELLOW
+[50 см]    D2=LOW edges=53 presses=1 valid=1 median=50.13cm LED=YELLOW   <-- исправлено
+[51 см]    D2=LOW edges=53 presses=1 valid=1 median=51.14cm LED=GREEN
+[70 см]    D2=LOW edges=53 presses=1 valid=1 median=70.21cm LED=GREEN
+[нет эха]  D2=LOW edges=41 presses=1 valid=0 ERROR: no valid echo -> SAFE STOP, LED=OFF
+
+=== Эксперимент C: дребезг, v2_final, 5 циклов нажать/отпустить ===
+bounce по умолчанию:  после 5 циклов edges=518 presses=5
+  накопленные edges после нажатия/отпускания: 29/114, 139/228, 253/340, 387/400, 449/518
+bounce = "0":         после 5 циклов edges=10 presses=5
+  накопленные edges после нажатия/отпускания: 1/2, 3/(строка не попала в выборку), 5/6, 7/8, 9/10
