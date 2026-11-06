@@ -1,0 +1,6 @@
+{
+  "name": "L298N + DC motor (model)",
+  "author": "SRS7 virtual lab",
+  "pins": ["IN1", "IN2", "ENA", "ECHO", "", "VCC", "GND", "VS", "OUT1", "OUT2"],
+  "display": { "width": 64, "height": 64 }
+}

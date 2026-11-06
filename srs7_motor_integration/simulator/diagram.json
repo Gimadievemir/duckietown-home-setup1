@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "author": "SRS7 virtual lab",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 120, "left": 0, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "sonar", "top": -110, "left": 20, "attrs": { "distance": "100" } },
+    { "type": "wokwi-pushbutton", "id": "btn", "top": 380, "left": 380, "attrs": { "color": "blue", "label": "MEASURE" } },
+    { "type": "wokwi-led", "id": "ledR", "top": -60, "left": 330, "attrs": { "color": "red", "label": "<20" } },
+    { "type": "wokwi-led", "id": "ledY", "top": -60, "left": 400, "attrs": { "color": "yellow", "label": "20-50" } },
+    { "type": "wokwi-led", "id": "ledG", "top": -60, "left": 470, "attrs": { "color": "limegreen", "label": ">50" } },
+    { "type": "wokwi-resistor", "id": "rR", "top": 40, "left": 300, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rY", "top": 40, "left": 370, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rG", "top": 40, "left": 440, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "chip-l298n", "id": "drv", "top": 170, "left": 560, "attrs": {} }
+  ],
+  "connections": [
+    [ "sonar:VCC", "uno:5V", "red", [] ],
+    [ "sonar:GND", "uno:GND.2", "black", [] ],
+    [ "sonar:TRIG", "uno:9", "orange", [] ],
+    [ "sonar:ECHO", "uno:10", "purple", [] ],
+
+    [ "btn:1.l", "uno:2", "blue", [] ],
+    [ "btn:2.l", "uno:GND.3", "black", [] ],
+
+    [ "uno:13", "rR:1", "red", [] ],
+    [ "rR:2", "ledR:A", "red", [] ],
+    [ "ledR:C", "uno:GND.1", "black", [] ],
+    [ "uno:12", "rY:1", "gold", [] ],
+    [ "rY:2", "ledY:A", "gold", [] ],
+    [ "ledY:C", "uno:GND.1", "black", [] ],
+    [ "uno:11", "rG:1", "green", [] ],
+    [ "rG:2", "ledG:A", "green", [] ],
+    [ "ledG:C", "uno:GND.1", "black", [] ],
+
+    [ "uno:5", "drv:IN1", "cyan", [] ],
+    [ "uno:6", "drv:IN2", "magenta", [] ],
+    [ "uno:3", "drv:ENA", "white", [] ],
+    [ "uno:10", "drv:ECHO", "purple", [] ],
+    [ "drv:VCC", "uno:5V", "red", [] ],
+    [ "drv:GND", "uno:GND.2", "black", [] ]
+  ],
+  "dependencies": {}
+}
