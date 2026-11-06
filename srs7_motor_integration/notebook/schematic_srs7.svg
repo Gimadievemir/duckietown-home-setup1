@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 760" font-family="Arial, sans-serif" font-size="14">
+  <rect width="1160" height="760" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="bold">СРС №7 — полная схема: Arduino UNO + HC-SR04 + L298N + DC-мотор + кнопка + 3 LED</text>
+  <text x="20" y="52" font-size="13" fill="#b00">Схема нарисована на компьютере (ИИ), это не рукописный оригинал.</text>
+
+  <!-- Arduino -->
+  <rect x="330" y="230" width="230" height="330" rx="8" fill="#e8f1fb" stroke="#1d5fa8" stroke-width="2"/>
+  <text x="445" y="258" text-anchor="middle" font-weight="bold" font-size="17">Arduino UNO</text>
+  <g font-size="13">
+    <text x="545" y="300" text-anchor="end">D9 (TRIG)</text>
+    <text x="545" y="325" text-anchor="end">D10 (ECHO)</text>
+    <text x="545" y="360" text-anchor="end">D13</text>
+    <text x="545" y="385" text-anchor="end">D12</text>
+    <text x="545" y="410" text-anchor="end">D11</text>
+    <text x="545" y="445" text-anchor="end">D5 (IN1)</text>
+    <text x="545" y="470" text-anchor="end">D6 (IN2)</text>
+    <text x="545" y="495" text-anchor="end">D3 ~PWM (ENA)</text>
+    <text x="345" y="300">5V</text>
+    <text x="345" y="335">GND</text>
+    <text x="345" y="520">D2 (INPUT_PULLUP)</text>
+  </g>
+
+  <!-- HC-SR04 -->
+  <rect x="60" y="90" width="200" height="90" rx="6" fill="#eef8ee" stroke="#2a7a2a" stroke-width="2"/>
+  <text x="160" y="115" text-anchor="middle" font-weight="bold">HC-SR04</text>
+  <text x="160" y="140" text-anchor="middle" font-size="12">VCC  TRIG  ECHO  GND</text>
+  <polyline points="90,180 90,296 330,296" fill="none" stroke="#d00" stroke-width="2"/>
+  <polyline points="230,180 230,331 330,331" fill="none" stroke="#000" stroke-width="2"/>
+  <polyline points="135,180 135,210 600,210 600,296 560,296" fill="none" stroke="#e08000" stroke-width="2"/>
+  <polyline points="185,180 185,200 615,200 615,321 560,321" fill="none" stroke="#7a2aa8" stroke-width="2"/>
+  <text x="95" y="230" font-size="12" fill="#d00">VCC→5V</text>
+  <text x="235" y="230" font-size="12">GND→GND</text>
+  <text x="380" y="196" font-size="12" fill="#e08000">TRIG→D9</text>
+  <text x="440" y="226" font-size="12" fill="#7a2aa8">ECHO→D10</text>
+
+  <!-- LEDs -->
+  <g font-size="12">
+    <line x1="560" y1="356" x2="640" y2="356" stroke="#d00" stroke-width="2"/>
+    <rect x="640" y="349" width="50" height="14" fill="#fff" stroke="#000"/><text x="600" y="352" text-anchor="middle">220 Ом</text>
+    <line x1="690" y1="356" x2="720" y2="356" stroke="#d00" stroke-width="2"/>
+    <polygon points="720,346 720,366 738,356" fill="#f33" stroke="#000"/><line x1="738" y1="346" x2="738" y2="366" stroke="#000"/>
+    <text x="745" y="360">красный &lt; 20 см</text>
+
+    <line x1="560" y1="381" x2="640" y2="381" stroke="#c90" stroke-width="2"/>
+    <rect x="640" y="374" width="50" height="14" fill="#fff" stroke="#000"/>
+    <line x1="690" y1="381" x2="720" y2="381" stroke="#c90" stroke-width="2"/>
+    <polygon points="720,371 720,391 738,381" fill="#fd3" stroke="#000"/><line x1="738" y1="371" x2="738" y2="391" stroke="#000"/>
+    <text x="745" y="385">жёлтый 20–50 см</text><text x="600" y="377" text-anchor="middle">220 Ом</text>
+
+    <line x1="560" y1="406" x2="640" y2="406" stroke="#080" stroke-width="2"/>
+    <rect x="640" y="410" width="50" height="14" fill="#fff" stroke="#000"/>
+    <polyline points="640,406 630,406 630,417 640,417" fill="none" stroke="#080" stroke-width="2"/>
+    <line x1="690" y1="417" x2="720" y2="417" stroke="#080" stroke-width="2"/>
+    <polygon points="720,407 720,427 738,417" fill="#3c3" stroke="#000"/><line x1="738" y1="407" x2="738" y2="427" stroke="#000"/>
+    <text x="745" y="421">зелёный &gt; 50 см</text><text x="600" y="402" text-anchor="middle">220 Ом</text>
+    <text x="880" y="390">катоды → GND</text>
+  </g>
+
+  <!-- Button -->
+  <polyline points="330,516 260,516" fill="none" stroke="#14a" stroke-width="2"/>
+  <circle cx="250" cy="516" r="4" fill="#000"/><circle cx="200" cy="516" r="4" fill="#000"/>
+  <line x1="200" y1="502" x2="250" y2="502" stroke="#000" stroke-width="2"/><line x1="225" y1="502" x2="225" y2="490" stroke="#000" stroke-width="2"/>
+  <polyline points="196,516 150,516 150,555" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="150" y="578" text-anchor="middle">GND</text>
+  <text x="225" y="482" text-anchor="middle" font-size="12">кнопка</text>
+  <text x="235" y="600" text-anchor="middle" font-size="11">отпущена = HIGH, нажата = LOW</text>
+
+  <!-- L298N -->
+  <rect x="680" y="470" width="220" height="200" rx="6" fill="#fdeeee" stroke="#a11" stroke-width="2"/>
+  <text x="790" y="495" text-anchor="middle" font-weight="bold" font-size="16">L298N</text>
+  <g font-size="12">
+    <text x="690" y="525">IN1</text><text x="690" y="550">IN2</text><text x="690" y="575">ENA</text>
+    <text x="690" y="610">Vss (+5V логики)</text><text x="690" y="635">GND (логика + силовая)</text>
+    <text x="890" y="525" text-anchor="end">OUT1</text><text x="890" y="550" text-anchor="end">OUT2</text>
+    <text x="890" y="660" text-anchor="end">Vs (+7…12 В)</text>
+  </g>
+  <polyline points="560,441 640,441 640,521 680,521" fill="none" stroke="#08a" stroke-width="2"/>
+  <polyline points="560,466 630,466 630,546 680,546" fill="none" stroke="#a0a" stroke-width="2"/>
+  <polyline points="560,491 620,491 620,571 680,571" fill="none" stroke="#555" stroke-width="2"/>
+  <polyline points="330,296 300,296 300,700 660,700 660,606 680,606" fill="none" stroke="#d00" stroke-width="2"/>
+  <polyline points="330,331 315,331 315,720 670,720 670,631 680,631" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="400" y="695" font-size="12" fill="#d00">5V Arduino → Vss</text>
+  <text x="400" y="735" font-size="12" font-weight="bold">ОБЩИЙ GND: Arduino ↔ L298N ↔ минус Vs (обязательно)</text>
+
+  <!-- Motor -->
+  <circle cx="1010" cy="537" r="38" fill="#fff" stroke="#000" stroke-width="2"/><text x="1010" y="543" text-anchor="middle" font-weight="bold" font-size="18">M</text>
+  <polyline points="900,521 960,521 975,525" fill="none" stroke="#000" stroke-width="2"/>
+  <polyline points="900,546 960,546 975,548" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="1010" y="595" text-anchor="middle" font-size="12">DC-мотор</text>
+
+  <!-- Vs battery -->
+  <line x1="990" y1="640" x2="1030" y2="640" stroke="#000" stroke-width="3"/>
+  <line x1="1000" y1="652" x2="1020" y2="652" stroke="#000" stroke-width="3"/>
+  <text x="1040" y="645" font-size="12">+</text>
+  <polyline points="1010,640 1010,625 920,625 920,656 900,656" fill="none" stroke="#d00" stroke-width="2"/>
+  <polyline points="1010,652 1010,740 670,740 670,720" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="1040" y="670" font-size="12">Vs 7–12 В</text>
+  <text x="1040" y="686" font-size="12">(отдельный</text>
+  <text x="1040" y="702" font-size="12">источник)</text>
+</svg>
