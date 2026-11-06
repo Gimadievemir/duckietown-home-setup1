@@ -1,0 +1,59 @@
+Выдержки из Serial Monitor и Chips Console Wokwi (Arduino UNO + модель L298N), 06.11.2026.
+Строки скопированы без изменений. t= — время симуляции, которое печатает модель L298N
+(шаг опроса модели 10 мс, поэтому задержки известны с точностью ±10 мс).
+
+=== v1_baseline, базовая схема (тесты 1–6) ===
+[отпущена] Serial: D2=HIGH released -> MOTOR=STOP LEDs OFF
+           Chip:   [L298N t=0.010s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop)
+[10 см]    Serial: D2=LOW distance=10.10cm LED=RED MOTOR=STOP PWM=0
+           Chip:   [L298N t=37.760s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop)
+[20 см]    Serial: D2=LOW distance=20.08cm LED=YELLOW MOTOR=FWD PWM=120
+           Chip:   [L298N t=20.450s] IN1=1 IN2=0 ENA duty=47% f=490Hz -> FORWARD
+[35 см]    Serial: D2=LOW distance=35.11cm LED=YELLOW MOTOR=FWD PWM=120
+           Chip:   (без изменений) IN1=1 IN2=0 ENA duty=47% f=490Hz -> FORWARD
+[50 см]    Serial: D2=LOW distance=50.23cm LED=YELLOW MOTOR=FWD PWM=120
+           Chip:   (без изменений) IN1=1 IN2=0 ENA duty=47% f=490Hz -> FORWARD
+[70 см]    Serial: D2=LOW distance=70.21cm LED=GREEN MOTOR=FWD PWM=255
+           Chip:   [L298N t=31.990s] IN1=1 IN2=0 ENA duty=100% f=0Hz -> FORWARD
+
+=== v1_baseline, тест 7: эхо обрывается переключателем (diagram_echo_break_switch.json), 70 см ===
+Serial: D2=LOW ERROR: no echo -> MOTOR=STOP LEDs OFF
+Chip:   [L298N t=40.000s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (769 ms after last ECHO pulse)
+Chip:   [L298N t=53.910s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (860 ms after last ECHO pulse)
+Chip:   [L298N t=59.600s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (906 ms after last ECHO pulse)
+(до этих строк мотор был в режиме FORWARD duty=100%)
+
+=== Тест 8: в motorForward() IN1 <-> IN2 (TEST 8) ===
+[35 см] Serial: D2=LOW distance=35.11cm LED=YELLOW MOTOR=FWD PWM=120
+        Chip:   [L298N t=6.630s] IN1=0 IN2=1 ENA duty=47% f=490Hz -> REVERSE
+[70 см] Serial: D2=LOW distance=70.21cm LED=GREEN MOTOR=FWD PWM=255
+        Chip:   [L298N t=8.770s] IN1=0 IN2=1 ENA duty=100% f=0Hz -> REVERSE
+
+=== Неисправность 1: удалён провод drv:GND -> uno:GND (нет общей земли) ===
+[35 см] Serial: D2=LOW distance=35.11cm LED=YELLOW MOTOR=FWD PWM=120
+        Chip:   [L298N t=9.640s] IN1=1 IN2=0 ENA duty=47% f=490Hz -> FORWARD
+[70 см] Serial: D2=LOW distance=70.21cm LED=GREEN MOTOR=FWD PWM=255
+        Chip:   [L298N t=11.780s] IN1=1 IN2=0 ENA duty=100% f=0Hz -> FORWARD
+
+=== Неисправность 2: ENA_PIN = 4 и провод uno:4 -> drv:ENA (пин без ШИМ) ===
+[35 см] Serial: D2=LOW distance=35.11cm LED=YELLOW MOTOR=FWD PWM=120
+        Chip:   [L298N t=6.020s] IN1=1 IN2=0 ENA duty=0% f=0Hz -> COAST(stop)
+[70 см] Serial: D2=LOW distance=70.21cm LED=GREEN MOTOR=FWD PWM=255
+        Chip:   [L298N t=8.150s] IN1=1 IN2=0 ENA duty=100% f=0Hz -> FORWARD
+
+=== v2_final, повторные тесты (diagram_echo_break_switch.json, переключатель замкнут) ===
+[отпущена] Serial: D2=HIGH idle LED=OFF MOTOR=STOP PWM=0
+[10 см]    Serial: D2=LOW valid=1 median=10.10cm LED=RED MOTOR=STOP PWM=0
+           Chip:   IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop)
+[20 см]    Serial: D2=LOW valid=1 median=20.08cm LED=YELLOW MOTOR=FWD PWM=120
+           Chip:   [L298N t=40.540s] IN1=1 IN2=0 ENA duty=47% f=3921Hz -> FORWARD
+[35 см]    Serial: D2=LOW valid=1 median=35.11cm LED=YELLOW MOTOR=FWD PWM=120
+[50 см]    Serial: D2=LOW valid=1 median=50.13cm LED=YELLOW MOTOR=FWD PWM=120
+[70 см]    Serial: D2=LOW valid=1 median=70.21cm LED=GREEN MOTOR=FWD PWM=255
+           Chip:   [L298N t=45.670s] IN1=1 IN2=0 ENA duty=100% f=0Hz -> FORWARD
+
+=== v2_final, тест 7: обрыв эха на 70 см (3 повтора) ===
+Serial: D2=LOW valid=0 ERROR: no valid echo -> SAFE STOP LED=OFF MOTOR=STOP PWM=0
+Chip:   [L298N t=56.880s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (44 ms after last ECHO pulse)
+Chip:   [L298N t=60.540s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (72 ms after last ECHO pulse)
+Chip:   [L298N t=64.080s] IN1=0 IN2=0 ENA duty=0% f=0Hz -> COAST(stop) (33 ms after last ECHO pulse)
