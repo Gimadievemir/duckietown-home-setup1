@@ -1,0 +1,84 @@
+Выдержки из Serial Monitor Wokwi (Arduino Uno, 115200 бод), 13.11.2026. Строки без изменений.
+\0 и \1 — непечатаемые байты 0x00 и 0x01, как их вернул монитор.
+
+=== code/crash.ino ===
+START
+10
+\0\1
+(дальше вывода нет; время симуляции идёт: 00:07 → 00:10 → 00:18, повторного START нет)
+
+=== code/diagnostics/stack_probe.ino ===
+STACK PROBE
+RAMSTART=256
+RAMEND=2303
+__data_start=256
+__bss_end=599
+__heap_start=599
+__brkval=0
+static bytes=343
+SP in setup=2301
+depth 1 SP=2281
+depth 2 SP=2261 frame=20
+depth 3 SP=2241 frame=20
+depth 4 SP=2221 frame=20
+depth 5 SP=2201 frame=20
+PROBE FINISH
+
+=== code/diagnostics/crash_flush.ino (2 запуска, результат одинаковый) ===
+START
+10
+20
+30
+START
+10
+20
+30
+START ... (повторяется ~раз в 0.58 с)
+
+=== code/diagnostics/crash_flush_sp.ino ===
+START
+10 SP=2081
+20 SP=1861
+30 SP=1641
+40 SP=1421
+50 SP=1201
+60 SP=981
+70 SP=761
+80 SP=541
+START
+10 SP=2081 ... (цикл повторяется)
+
+=== code/safe.ino ===
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+9000
+10000
+SAFE FINISH
+
+=== code/memory_hog.ino, START_LEVEL = 0 ===
+MEMORY HOG START
+level = 0
+MEMORY HOG FINISH
+
+=== START_LEVEL = 1 ===
+MEMORY HOG START
+level = 1
+level = 0
+MEMORY HOG FINISH
+
+=== START_LEVEL = 2 ===
+MEMORY HOG START
+(дальше ничего; наблюдали до 00:11.871 времени симуляции; перезапуска нет)
+
+=== START_LEVEL = 3 ===
+MEMORY HOG STARTMEMORY HOG STARTMEMORY HOG START... (13 раз за 6.68 с, без перевода строки)
+
+=== START_LEVEL = 4 ===
+MEMORY HOG STARTMEMORY HOG STARTMEMORY HOG START... (10 раз за 5.28 с, без перевода строки)
